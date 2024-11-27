@@ -1,0 +1,24 @@
+[package]
+name = "ark-models-ext"
+description = "Replacement model for the BN model from ark-ec"
+version.workspace = true
+authors.workspace = true
+repository.workspace = true
+keywords.workspace = true
+categories.workspace = true
+include.workspace = true
+license.workspace = true
+edition.workspace = true
+
+[dependencies]
+ark-ff.workspace = true
+ark-ec.workspace = true
+ark-std.workspace = true
+ark-serialize.workspace = true
+
+derivative.workspace = true
+
+[features]
+default = [ "std" ]
+std = [ "ark-ff/std", "ark-serialize/std", "ark-std/std" ]
+parallel = [ "ark-std/parallel", "std" ]
