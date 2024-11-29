@@ -82,24 +82,3 @@ impl<H: CurveHooks> SWCurveConfig for Config<H> {
         true
     }
 }
-
-// Possibly redundant:
-// fn one_minus_x(
-//     x_is_negative: bool,
-//     x_value: &'static [u64],
-// ) -> <ArkConfig as CurveConfig>::ScalarField {
-//     let x = <ArkConfig as CurveConfig>::ScalarField::from_sign_and_limbs(!x_is_negative, x_value);
-//     <ArkConfig as CurveConfig>::ScalarField::one() - x
-// }
-
-// pub fn endomorphism<H: CurveHooks>(p: &G1Projective<H>) -> G1Projective<H> {
-//     let mut res = (*p).clone();
-//     res.x *= <ArkConfig as GLVConfig>::ENDO_COEFFS[0];
-//     res
-// }
-
-// pub fn endomorphism_affine<H: CurveHooks>(p: &G1Affine<H>) -> G1Affine<H> {
-//     let mut res = (*p).clone();
-//     res.x *= <ArkConfig as GLVConfig>::ENDO_COEFFS[1];
-//     res
-// }
