@@ -60,32 +60,32 @@ impl<H: CurveHooks> SWCurveConfig for Config<H> {
 
     const GENERATOR: G2Affine<H> = G2Affine::<H>::new_unchecked(G2_GENERATOR_X, G2_GENERATOR_Y);
 
-    // /// Multi scalar multiplication jumping into the user-defined `msm_g2` hook.
-    // ///
-    // /// On any *external* error returns `Err(0)`.
-    // #[inline(always)]
-    // fn msm(bases: &[G2Affine<H>], scalars: &[Self::ScalarField]) -> Result<G2Projective<H>, usize> {
-    //     if bases.len() != scalars.len() {
-    //         return Err(bases.len().min(scalars.len()));
-    //     }
-    //     H::bn254_msm_g2(bases, scalars).map_err(|_| 0)
-    // }
+    /// Multi scalar multiplication jumping into the user-defined `msm_g2` hook.
+    ///
+    /// On any *external* error returns `Err(0)`.
+    #[inline(always)]
+    fn msm(bases: &[G2Affine<H>], scalars: &[Self::ScalarField]) -> Result<G2Projective<H>, usize> {
+        if bases.len() != scalars.len() {
+            return Err(bases.len().min(scalars.len()));
+        }
+        H::bn254_msm_g2(bases, scalars).map_err(|_| 0)
+    }
 
-    // /// Projective multiplication jumping into the user-defined `mul_projective_g2` hook.
-    // ///
-    // /// On any *external* error returns `Projective::zero()`.
-    // #[inline(always)]
-    // fn mul_projective(base: &G2Projective<H>, scalar: &[u64]) -> G2Projective<H> {
-    //     H::bn254_mul_projective_g2(base, scalar).unwrap_or_default()
-    // }
+    /// Projective multiplication jumping into the user-defined `mul_projective_g2` hook.
+    ///
+    /// On any *external* error returns `Projective::zero()`.
+    #[inline(always)]
+    fn mul_projective(base: &G2Projective<H>, scalar: &[u64]) -> G2Projective<H> {
+        H::bn254_mul_projective_g2(base, scalar).unwrap_or_default()
+    }
 
-    // /// Affine multiplication jumping into the user-defined `mul_projective_g2` hook.
-    // ///
-    // /// On any *external* error returns `Projective::zero()`.
-    // #[inline(always)]
-    // fn mul_affine(base: &G2Affine<H>, scalar: &[u64]) -> G2Projective<H> {
-    //     Self::mul_projective(&(*base).into(), scalar)
-    // }
+    /// Affine multiplication jumping into the user-defined `mul_projective_g2` hook.
+    ///
+    /// On any *external* error returns `Projective::zero()`.
+    #[inline(always)]
+    fn mul_affine(base: &G2Affine<H>, scalar: &[u64]) -> G2Projective<H> {
+        Self::mul_projective(&(*base).into(), scalar)
+    }
 
     #[inline(always)]
     fn mul_by_a(elem: Self::BaseField) -> Self::BaseField {

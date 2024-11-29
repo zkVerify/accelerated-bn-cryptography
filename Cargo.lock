@@ -47,7 +47,7 @@ dependencies = [
 
 [[package]]
 name = "ark-bn254-ext"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "ark-algebra-test-templates",
  "ark-bn254",
@@ -123,7 +123,7 @@ dependencies = [
 
 [[package]]
 name = "ark-models-ext"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "ark-ec",
  "ark-ff",
@@ -693,7 +693,7 @@ checksum = "55937e1799185b12863d447f42597ed69d9928686b8d88a1df17376a097d8369"
 
 [[package]]
 name = "test-utils"
-version = "0.4.1"
+version = "0.4.2"
 dependencies = [
  "ark-ec",
  "ark-scale",
