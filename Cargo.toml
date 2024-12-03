@@ -9,7 +9,7 @@ resolver = "2"
 [workspace.package]
 version = "0.4.2"
 authors = ["Horizen Labs <admin@horizenlabs.io>"]
-repository = "https://github.com/DimitrisPapac/accelerated-bn-cryptography.git"   # "https://github.com/zkVerify/accelerated-bn-cryptography"
+repository = "https://github.com/zkVerify/accelerated-bn-cryptography"
 homepage = "https://horizenlabs.io"
 keywords = ["cryptography", "elliptic-curves", "pairing"]
 categories = ["cryptography"]

@@ -1,5 +1,6 @@
-// Copyright 2024, Horizen Labs, Inc.
-// SPDX-License-Identifier: Apache-2.0
+// Copyright 2022 arkworks contributors
+// Copyright 2024 Horizen Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0 or MIT
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -82,10 +83,6 @@ impl<H: CurveHooks> BnConfig for Config<H> {
     const TWIST_TYPE: TwistType = <ArkConfig as ArkBnConfig>::TWIST_TYPE;
 
     const ATE_LOOP_COUNT: &'static [i8] = <ArkConfig as ArkBnConfig>::ATE_LOOP_COUNT;
-
-    // Possibly no longer useful here:
-    // const TWIST_MUL_BY_Q_X: Fq2
-    // const TWIST_MUL_BY_Q_Y: Fq2
 
     // Configure Field Extension Tower
     type Fp = <ArkConfig as ArkBnConfig>::Fp;

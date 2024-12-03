@@ -1,5 +1,6 @@
-// Copyright 2024, Horizen Labs, Inc.
-// SPDX-License-Identifier: Apache-2.0
+// Copyright 2022 arkworks contributors
+// Copyright 2024 Horizen Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0 or MIT
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.

@@ -1,5 +1,6 @@
-// Copyright 2024, Horizen Labs, Inc.
-// SPDX-License-Identifier: Apache-2.0
+// Copyright 2022 arkworks contributors
+// Copyright 2024 Horizen Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0 or MIT
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,10 +44,6 @@ pub trait BnConfig: 'static + Sized {
 
     /// What kind of twist is this?
     const TWIST_TYPE: TwistType;
-
-    // Redundant since mul_by_char is not used:
-    // const TWIST_MUL_BY_Q_X: Fp2<Self::Fp2Config>;
-    // const TWIST_MUL_BY_Q_Y: Fp2<Self::Fp2Config>;
 
     // Field Extension Tower.
     type Fp: PrimeField + Into<<Self::Fp as PrimeField>::BigInt>;

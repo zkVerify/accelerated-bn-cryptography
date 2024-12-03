@@ -1,0 +1,102 @@
+[config]
+default_to_workspace = false
+
+[tasks.ignore-members]
+workspace = false
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+[tasks.install-bare-metal]
+command = "rustup"
+args = ["target", "add", "thumbv7em-none-eabi"]
+
+[tasks.build-bare-metal-models]
+description = "Build models crate"
+dependencies = ["install-bare-metal"]
+command = "cargo"
+args = ["build", "-p", "models", "--no-default-features", "--target", "thumbv7em-none-eabi"]
+
+[tasks.build-bare-metal-curves]
+description = "Build curves crate"
+dependencies = ["install-bare-metal"]
+command = "cargo"
+args = ["build", "-p", "curves", "--no-default-features", "--target", "thumbv7em-none-eabi"]
+
+[tasks.build-bare-metal]
+description = "Build both models and curves crates"
+dependencies = ["build-bare-metal-models", "build-bare-metal-curves"]
+
+[tasks.test]
+dependencies = ["test-default-features", "test-all-features", "test-no-default-features"]
+
+[tasks.test-default-features]
+description = "Test with default features on"
+command = "cargo"
+args = ["test"]
+
+[tasks.test-all-features]
+description = "Test with all features on"
+command = "cargo"
+args = ["test", "--all-features"]
+
+[tasks.test-no-default-features]
+description = "Test with no default features on"
+command = "cargo"
+args = ["test", "--no-default-features"]
+
+[tasks.format_inst]
+[tasks.format-inst]
+install_crate = { crate_name = "rustfmt", rustup_component_name = "rustfmt", binary = "rustfmt", test_arg = "--help" }
+
+[tasks.format]
+dependencies = ["format-inst"]
+command = "cargo"
+args = ["fmt"]
+
+[tasks.format-check]
+dependencies = ["format-inst"]
+command = "cargo"
+args = ["fmt", "--check"]
+
+[tasks.clippy-inst]
+install_crate = { crate_name = "clippy", rustup_component_name = "clippy", binary = "clippy", test_arg = "--help" }
+
+[tasks.clippy]
+dependencies = ["clippy-inst"]
+command = "cargo"
+args = ["clippy", "--", "--deny", "warnings"]
+
+[tasks.header-add]
+script = { file = "./scripts/add_header_if_missing.sh" }
+args = ["HEADER-APACHE2", "./**/*.rs"]
+
+[tasks.header-check]
+env = { CHECK_DIRTY = "true", DRY_RUN = "true" }
+run_task = "header-add"
+
+[tasks.cov]
+command = "cargo"
+args = ["llvm-cov", "--workspace", "--lcov", "--output-path", "lcov.info"]
+
+[tasks.udeps]
+command = "cargo"
+toolchain = "nightly"
+args = ["udeps", "--all-targets"]
+
+[tasks.ci-common]
+dependencies = [
+    "build",
+    "build-bare-metal",
+    "test",
+    "clippy",
+    "audit",
+    "udeps",
+]
+
+[tasks.ci]
+dependencies = ["format", "header-add", "ci-common"]
+
+[tasks.ci-remote]
+dependencies = ["format-check", "header-check", "ci-common"]

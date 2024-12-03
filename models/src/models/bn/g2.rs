@@ -1,5 +1,6 @@
-// Copyright 2024, Horizen Labs, Inc.
-// SPDX-License-Identifier: Apache-2.0
+// Copyright 2022 arkworks contributors
+// Copyright 2024 Horizen Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0 or MIT
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -70,15 +71,3 @@ impl<P: BnConfig> Default for G2Prepared<P> {
         G2Prepared(G2Affine::<P>::generator())
     }
 }
-
-// fn mul_by_char<P: BnConfig>(r: G2Affine<P>) -> G2Affine<P> {
-//     // multiply by field characteristic
-
-//     let mut s = r;
-//     s.x.frobenius_map_in_place(1);
-//     s.x *= &P::TWIST_MUL_BY_Q_X;
-//     s.y.frobenius_map_in_place(1);
-//     s.y *= &P::TWIST_MUL_BY_Q_Y;
-
-//     s
-// }
