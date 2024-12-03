@@ -16,13 +16,13 @@ args = ["target", "add", "thumbv7em-none-eabi"]
 description = "Build models crate"
 dependencies = ["install-bare-metal"]
 command = "cargo"
-args = ["build", "-p", "models", "--no-default-features", "--target", "thumbv7em-none-eabi"]
+args = ["build", "-p", "ark-models-ext", "--no-default-features", "--target", "thumbv7em-none-eabi"]
 
 [tasks.build-bare-metal-curves]
 description = "Build curves crate"
 dependencies = ["install-bare-metal"]
 command = "cargo"
-args = ["build", "-p", "curves", "--no-default-features", "--target", "thumbv7em-none-eabi"]
+args = ["build", "-p", "ark-bn254-ext", "--no-default-features", "--target", "thumbv7em-none-eabi"]
 
 [tasks.build-bare-metal]
 description = "Build both models and curves crates"
