@@ -88,7 +88,7 @@ dependencies = [
 ]
 
 [tasks.ci]
-dependencies = ["format", "header-add", "ci-common"]
+dependencies = ["format", "ci-common"]
 
 [tasks.ci-remote]
-dependencies = ["format-check", "header-check", "ci-common"]
+dependencies = ["format-check", "ci-common"]
