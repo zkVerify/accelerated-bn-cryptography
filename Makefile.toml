@@ -1,0 +1,107 @@
+[config]
+default_to_workspace = false
+
+[tasks.ignore-members]
+workspace = false
+
+[tasks.build]
+description = "Build project"
+command = "cargo"
+args = ["build"]
+
+[tasks.install-bare-metal]
+description = "Install Rust compiler for bare-metal embedded development"
+command = "rustup"
+args = ["target", "add", "thumbv7em-none-eabi"]
+
+[tasks.build-bare-metal-models]
+description = "Build models crate"
+dependencies = ["install-bare-metal"]
+command = "cargo"
+args = ["build", "-p", "ark-models-ext", "--no-default-features", "--target", "thumbv7em-none-eabi"]
+
+[tasks.build-bare-metal-curves]
+description = "Build curves crate"
+dependencies = ["install-bare-metal"]
+command = "cargo"
+args = ["build", "-p", "ark-bn254-ext", "--no-default-features", "--target", "thumbv7em-none-eabi"]
+
+[tasks.build-bare-metal]
+description = "Build both models and curves crates"
+dependencies = ["build-bare-metal-models", "build-bare-metal-curves"]
+
+[tasks.test]
+description = "Sequentially execute the following dependent tasks"
+dependencies = ["test-default-features", "test-all-features", "test-no-default-features"]
+
+[tasks.test-default-features]
+description = "Test with default features on"
+command = "cargo"
+args = ["test"]
+
+[tasks.test-all-features]
+description = "Test with all features on"
+command = "cargo"
+args = ["test", "--all-features"]
+
+[tasks.test-no-default-features]
+description = "Test with no default features on"
+command = "cargo"
+args = ["test", "--no-default-features"]
+
+[tasks.format_inst]
+[tasks.format-inst]
+description = "Ensure that rustfmt is installed"
+install_crate = { crate_name = "rustfmt", rustup_component_name = "rustfmt", binary = "rustfmt", test_arg = "--help" }
+
+[tasks.format]
+description = "Ensure that code is formatted using `cargo fmt`"
+dependencies = ["format-inst"]
+command = "cargo"
+args = ["fmt"]
+
+[tasks.format-check]
+description = "Ensure that the Rust code in the project is properly formatted"
+dependencies = ["format-inst"]
+command = "cargo"
+args = ["fmt", "--check"]
+
+[tasks.clippy-inst]
+description = "Ensure that clippy is installed"
+install_crate = { crate_name = "clippy", rustup_component_name = "clippy", binary = "clippy", test_arg = "--help" }
+
+[tasks.clippy]
+description = "Run `cargo clippy` linter to check Rust code for potential issues"
+dependencies = ["clippy-inst"]
+command = "cargo"
+args = ["clippy", "--", "--deny", "warnings"]
+
+[tasks.cov]
+description = "Generate code coverage report"
+command = "cargo"
+args = ["llvm-cov", "--workspace", "--lcov", "--output-path", "lcov.info"]
+
+[tasks.udeps]
+description = "Check for unused dependencies in the project"
+command = "cargo"
+toolchain = "nightly"
+args = ["udeps", "--all-targets"]
+
+[tasks.ci-common]
+description = "Aggregate tasks for CI workflow"
+dependencies = [
+    "build",
+    "build-bare-metal",
+    "test",
+    "clippy",
+    "audit",
+    "udeps",
+]
+
+[tasks.ci]
+description = "Format code and perform core CI checks"
+dependencies = ["format", "ci-common"]
+
+[tasks.ci-remote]
+description = "Check formatting and perform CI checks in a possibly remote/pre-deployment environment"
+dependencies = ["format-check", "ci-common"]
