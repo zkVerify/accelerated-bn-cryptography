@@ -19,22 +19,37 @@ use crate::models::{
     short_weierstrass::{Affine, Projective},
 };
 use ark_ec::{AffineRepr, CurveGroup};
-use ark_serialize::*;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_std::vec::Vec;
-use derivative::Derivative;
+use core::fmt;
 
 pub type G1Affine<P> = Affine<<P as BnConfig>::G1Config>;
 pub type G1Projective<P> = Projective<<P as BnConfig>::G1Config>;
 
-#[derive(Derivative, CanonicalSerialize, CanonicalDeserialize)]
-#[derivative(
-    Copy(bound = "P: BnConfig"),
-    Clone(bound = "P: BnConfig"),
-    PartialEq(bound = "P: BnConfig"),
-    Eq(bound = "P: BnConfig"),
-    Debug(bound = "P: BnConfig")
-)]
+#[derive(CanonicalSerialize, CanonicalDeserialize)]
 pub struct G1Prepared<P: BnConfig>(pub G1Affine<P>);
+
+impl<P: BnConfig> Copy for G1Prepared<P> {}
+
+impl<P: BnConfig> Clone for G1Prepared<P> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<P: BnConfig> PartialEq for G1Prepared<P> {
+    fn eq(&self, other: &Self) -> bool {
+        self.0 == other.0
+    }
+}
+
+impl<P: BnConfig> Eq for G1Prepared<P> {}
+
+impl<P: BnConfig> fmt::Debug for G1Prepared<P> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_tuple("G1Prepared").field(&self.0).finish()
+    }
+}
 
 impl<P: BnConfig> From<G1Affine<P>> for G1Prepared<P> {
     fn from(other: G1Affine<P>) -> Self {
