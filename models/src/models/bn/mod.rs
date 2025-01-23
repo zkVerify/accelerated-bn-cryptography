@@ -14,6 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use crate::models::short_weierstrass::SWCurveConfig;
 pub use ark_ec::models::bn::TwistType;
 use ark_ec::{
     models::CurveConfig,
@@ -29,9 +30,10 @@ use ark_ff::{
     PrimeField,
 };
 use ark_std::marker::PhantomData;
-use derivative::Derivative;
-
-use crate::models::short_weierstrass::SWCurveConfig;
+use core::{
+    fmt,
+    hash::{Hash, Hasher},
+};
 
 pub trait BnConfig: 'static + Sized {
     /// Parameterizes the BN family.
@@ -72,9 +74,33 @@ pub use self::{
     g2::{G2Affine, G2Prepared, G2Projective},
 };
 
-#[derive(Derivative)]
-#[derivative(Copy, Clone, PartialEq, Eq, Debug, Hash)]
 pub struct Bn<P: BnConfig>(PhantomData<fn() -> P>);
+
+impl<P: BnConfig> Copy for Bn<P> {}
+
+impl<P: BnConfig> Clone for Bn<P> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+impl<P: BnConfig> PartialEq for Bn<P> {
+    fn eq(&self, _: &Self) -> bool {
+        true
+    }
+}
+
+impl<P: BnConfig> Eq for Bn<P> {}
+
+impl<P: BnConfig> fmt::Debug for Bn<P> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_tuple("Bn").finish()
+    }
+}
+
+impl<P: BnConfig> Hash for Bn<P> {
+    fn hash<H: Hasher>(&self, _state: &mut H) {}
+}
 
 impl<P: BnConfig> Pairing for Bn<P> {
     type BaseField = <P::G1Config as CurveConfig>::BaseField;
