@@ -14,6 +14,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#![cfg(test)]
+
 use crate::CurveHooks;
 use ark_algebra_test_templates::*;
 use ark_bn254::{g1::Config as ArkG1Config, g2::Config as ArkG2Config, Bn254 as ArkBn254};
@@ -70,7 +72,17 @@ impl CurveHooks for TestHooks {
     }
 }
 
-test_group!(g1; G1Projective; sw);
-test_group!(g2; G2Projective; sw);
-test_group!(pairing_output; PairingOutput<Bn254>; msm);
+#[cfg(not(feature = "std"))]
+extern crate std;
+
+const fn iterations() -> usize {
+    match std::option_env!("FAST_TESTS") {
+        Some(_) => 2,
+        _ => 500,
+    }
+}
+
+test_group!(iterations(); g1; G1Projective; sw);
+test_group!(iterations(); g2; G2Projective; sw);
+test_group!(iterations(); pairing_output; PairingOutput<Bn254>; msm);
 test_pairing!(pairing; crate::Bn254<super::TestHooks>);

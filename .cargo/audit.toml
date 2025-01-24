@@ -1,0 +1,7 @@
+[advisories]
+ignore = []
+
+[output]
+deny = ["unsound", "unmaintained", "yanked"]
+quiet = false
+show_tree = false
