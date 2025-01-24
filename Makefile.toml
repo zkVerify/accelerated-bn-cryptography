@@ -81,8 +81,15 @@ description = "Generate code coverage report"
 command = "cargo"
 args = ["llvm-cov", "--workspace", "--lcov", "--output-path", "lcov.info"]
 
+[tasks.udeps-minimal]
+description = "Check for unused dependencies in the project without any features"
+command = "cargo"
+toolchain = "nightly"
+args = ["udeps", "--all-targets", "--no-default-features"]
+
 [tasks.udeps]
 description = "Check for unused dependencies in the project"
+dependencies = ["udeps-minimal"]
 command = "cargo"
 toolchain = "nightly"
 args = ["udeps", "--all-targets"]
