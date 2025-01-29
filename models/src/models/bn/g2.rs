@@ -28,7 +28,7 @@ pub type G2Projective<P> = Projective<<P as BnConfig>::G2Config>;
 
 #[derive(Educe, CanonicalSerialize, CanonicalDeserialize)]
 #[educe(Copy, Clone, PartialEq, Eq, Debug)]
-pub struct G2Prepared<P: BnConfig>(pub G2Affine<P>)
+pub struct G2Prepared<P>(pub G2Affine<P>)
 where
     P: BnConfig;
 

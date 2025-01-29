@@ -75,7 +75,7 @@ pub use self::{
 
 #[derive(Educe)]
 #[educe(Copy, Clone, PartialEq, Eq, Debug)]
-pub struct Bn<P: BnConfig>(PhantomData<fn() -> P>)
+pub struct Bn<P>(PhantomData<fn() -> P>)
 where
     P: BnConfig;
 
