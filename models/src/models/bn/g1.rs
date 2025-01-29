@@ -21,35 +21,16 @@ use crate::models::{
 use ark_ec::{AffineRepr, CurveGroup};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_std::vec::Vec;
-use core::fmt;
+use educe::Educe;
 
 pub type G1Affine<P> = Affine<<P as BnConfig>::G1Config>;
 pub type G1Projective<P> = Projective<<P as BnConfig>::G1Config>;
 
-#[derive(CanonicalSerialize, CanonicalDeserialize)]
-pub struct G1Prepared<P: BnConfig>(pub G1Affine<P>);
-
-impl<P: BnConfig> Copy for G1Prepared<P> {}
-
-impl<P: BnConfig> Clone for G1Prepared<P> {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-impl<P: BnConfig> PartialEq for G1Prepared<P> {
-    fn eq(&self, other: &Self) -> bool {
-        self.0 == other.0
-    }
-}
-
-impl<P: BnConfig> Eq for G1Prepared<P> {}
-
-impl<P: BnConfig> fmt::Debug for G1Prepared<P> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple("G1Prepared").field(&self.0).finish()
-    }
-}
+#[derive(Educe, CanonicalSerialize, CanonicalDeserialize)]
+#[educe(Copy, Clone, PartialEq, Eq, Debug)]
+pub struct G1Prepared<P: BnConfig>(pub G1Affine<P>)
+where
+    P: BnConfig;
 
 impl<P: BnConfig> From<G1Affine<P>> for G1Prepared<P> {
     fn from(other: G1Affine<P>) -> Self {

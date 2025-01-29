@@ -15,6 +15,7 @@ ark-ff.workspace = true
 ark-ec.workspace = true
 ark-std.workspace = true
 ark-serialize.workspace = true
+educe.workspace = true
 
 [features]
 default = [ "std" ]

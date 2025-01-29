@@ -30,14 +30,13 @@ use ark_ff::{
     PrimeField,
 };
 use ark_std::marker::PhantomData;
-use core::{
-    fmt,
-    hash::{Hash, Hasher},
-};
+use core::hash::{Hash, Hasher};
+use educe::Educe;
 
 pub trait BnConfig: 'static + Sized {
     /// Parameterizes the BN family.
     const X: &'static [u64];
+
     /// Whether or not `X` is negative.
     const X_IS_NEGATIVE: bool;
 
@@ -74,29 +73,11 @@ pub use self::{
     g2::{G2Affine, G2Prepared, G2Projective},
 };
 
-pub struct Bn<P: BnConfig>(PhantomData<fn() -> P>);
-
-impl<P: BnConfig> Copy for Bn<P> {}
-
-impl<P: BnConfig> Clone for Bn<P> {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-impl<P: BnConfig> PartialEq for Bn<P> {
-    fn eq(&self, _: &Self) -> bool {
-        true
-    }
-}
-
-impl<P: BnConfig> Eq for Bn<P> {}
-
-impl<P: BnConfig> fmt::Debug for Bn<P> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_tuple("Bn").finish()
-    }
-}
+#[derive(Educe)]
+#[educe(Copy, Clone, PartialEq, Eq, Debug)]
+pub struct Bn<P: BnConfig>(PhantomData<fn() -> P>)
+where
+    P: BnConfig;
 
 impl<P: BnConfig> Hash for Bn<P> {
     fn hash<H: Hasher>(&self, _state: &mut H) {}

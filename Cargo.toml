@@ -26,5 +26,6 @@ ark-models-ext = { path = "./models", version = "0.5.0", default-features = fals
 ark-serialize = { version = "0.5.0", default-features = false, features = ["derive"] }
 ark-scale = { version = "0.0.13", default-features = false, features = ["hazmat"] }
 ark-std = { version = "0.5.0", default-features = false }
+educe = { version = "0.6.0", default-features = false }
 num-traits = { version = "0.2", default-features = false }
 test-utils = { path = "./test-utils", default-features = false }
