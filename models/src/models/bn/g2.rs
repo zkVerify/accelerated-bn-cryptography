@@ -19,22 +19,18 @@ use crate::models::{
     short_weierstrass::{Affine, Projective},
 };
 use ark_ec::{AffineRepr, CurveGroup};
-use ark_serialize::*;
+use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_std::vec::Vec;
-use derivative::Derivative;
+use educe::Educe;
 
 pub type G2Affine<P> = Affine<<P as BnConfig>::G2Config>;
 pub type G2Projective<P> = Projective<<P as BnConfig>::G2Config>;
 
-#[derive(Derivative, CanonicalSerialize, CanonicalDeserialize)]
-#[derivative(
-    Copy(bound = "P: BnConfig"),
-    Clone(bound = "P: BnConfig"),
-    PartialEq(bound = "P: BnConfig"),
-    Eq(bound = "P: BnConfig"),
-    Debug(bound = "P: BnConfig")
-)]
-pub struct G2Prepared<P: BnConfig>(pub G2Affine<P>);
+#[derive(Educe, CanonicalSerialize, CanonicalDeserialize)]
+#[educe(Copy, Clone, PartialEq, Eq, Debug)]
+pub struct G2Prepared<P>(pub G2Affine<P>)
+where
+    P: BnConfig;
 
 impl<P: BnConfig> From<G2Affine<P>> for G2Prepared<P> {
     fn from(other: G2Affine<P>) -> Self {
