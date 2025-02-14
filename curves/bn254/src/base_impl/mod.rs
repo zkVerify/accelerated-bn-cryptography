@@ -53,6 +53,14 @@ const SCALE_USAGE: u8 = ark_scale::make_usage(SCALE_COMPRESS, Validate::No);
 
 type ArkScale<T> = ark_scale::ArkScale<T, SCALE_USAGE>;
 
+pub type Bn254 = crate::Bn254<()>;
+pub type G1Projective = crate::G1Projective<()>;
+pub type G2Projective = crate::G2Projective<()>;
+pub type G1Affine = crate::G1Affine<()>;
+pub type G2Affine = crate::G2Affine<()>;
+pub type G1Config = crate::g1::Config<()>;
+pub type G2Config = crate::g2::Config<()>;
+
 trait TryTransmute {
     fn try_transmute<U: CanonicalDeserialize>(self) -> Result<U, ()>;
 }
@@ -131,17 +139,7 @@ pub fn mul_projective_te_generic<ExtConfig: TECurveConfig, ArkConfig: TECurveCon
     res.try_transmute()
 }
 
-pub struct TestHooks;
-
-pub type Bn254 = crate::Bn254<TestHooks>;
-pub type G1Projective = crate::G1Projective<TestHooks>;
-pub type G2Projective = crate::G2Projective<TestHooks>;
-pub type G1Affine = crate::G1Affine<TestHooks>;
-pub type G2Affine = crate::G2Affine<TestHooks>;
-pub type G1Config = crate::g1::Config<TestHooks>;
-pub type G2Config = crate::g2::Config<TestHooks>;
-
-impl CurveHooks for TestHooks {
+impl CurveHooks for () {
     fn bn254_multi_miller_loop(
         g1: impl Iterator<Item = <Bn254 as Pairing>::G1Prepared>,
         g2: impl Iterator<Item = <Bn254 as Pairing>::G2Prepared>,

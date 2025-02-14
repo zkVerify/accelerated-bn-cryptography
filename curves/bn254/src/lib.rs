@@ -53,6 +53,5 @@ mod base_impl;
 mod curves;
 
 pub use ark_bn254::{fq, fq::*, fq12, fq12::*, fq2, fq2::*, fq6, fq6::*, fr, fr::*};
-pub use base_impl::TestHooks;
 
 pub use curves::*;

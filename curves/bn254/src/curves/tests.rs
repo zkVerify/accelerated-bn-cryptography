@@ -18,7 +18,6 @@
 
 use crate::base_impl::*;
 use ark_algebra_test_templates::*;
-use ark_ff::fields::Field;
 use ark_models_ext::pairing::PairingOutput;
 
 #[cfg(not(feature = "std"))]
@@ -34,4 +33,4 @@ const fn iterations() -> usize {
 test_group!(iterations(); g1; G1Projective; sw);
 test_group!(iterations(); g2; G2Projective; sw);
 test_group!(iterations(); pairing_output; PairingOutput<Bn254>; msm);
-test_pairing!(pairing; crate::Bn254<super::TestHooks>);
+test_pairing!(pairing; crate::Bn254<()>);
