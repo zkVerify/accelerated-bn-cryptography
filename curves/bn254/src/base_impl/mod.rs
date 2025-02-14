@@ -19,7 +19,6 @@
 //! We just safely transmute from Arkworks-Ext types to Arkworks upstream types by
 //! encoding and deconding and jump into the *Arkworks* upstream methods.
 
-#![cfg_attr(not(feature = "std"), no_std)]
 #![allow(clippy::result_unit_err)]
 
 use ark_ec::{
