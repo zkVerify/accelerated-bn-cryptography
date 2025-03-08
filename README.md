@@ -157,10 +157,10 @@ The following invocation flow applies:
 
 1. Validation of deserialized value.
 2. Check if point is in the correct subgroup.
-3. Jump into the TECurveConfig for the check.
-4. Calls the "custom" (defined by this crate) implementation of mul_affine which calls mul_projective.
+3. Jump into the `TECurveConfig` for the check.
+4. Calls the "custom" (defined by this crate) implementation of `mul_affine` which calls `mul_projective`.
 5. Goto 1
 
-So pay special attention to the actions in your CurveHooks implementations.
+So pay special attention to the actions in your `CurveHooks` implementations.
 
 If you encounter any other way to trigger the open, please file an issue.
