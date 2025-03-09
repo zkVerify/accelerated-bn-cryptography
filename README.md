@@ -4,7 +4,7 @@
 
 This library extends [arkworks-rs/algebra](https://github.com/arkworks-rs/algebra).
 
-We fork the popular `BN254` elliptic curve in a way which allows delegating some of the most computationally expensive operations to some user defined hooks.
+We fork the popular `BN254` elliptic curve in a way which allows delegating some of the most computationally expensive operations (like pairings, MSM, and final exponentiation) to some user defined hooks.
 
 We also provide a `BN` model to avoid the point preparation before the hooks calls during pairing operations. Therefore, we redefine the elliptic curve sub-groups `G2` for both models as thin wrappers around the affine points and move the point preparation procedure to the user defined hook.
 
