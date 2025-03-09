@@ -159,7 +159,7 @@ The following invocation flow applies:
 2. Check if point is in the correct subgroup.
 3. Jump into the `TECurveConfig` for the check.
 4. Calls the "custom" (defined by this crate) implementation of `mul_affine` which calls `mul_projective`.
-5. Goto 1
+5. Goto 1.
 
 So pay special attention to the actions in your `CurveHooks` implementations.
 
